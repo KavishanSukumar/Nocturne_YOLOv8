@@ -410,7 +410,7 @@ class MaxSigmoidAttnBlock(nn.Module):
         embed = self.ec(x) if self.ec is not None else x
         embed = embed.view(bs, -1, h, w)
 
-        aw = torch.einsum("bmchw,bnmc->bmhw", embed, guide)
+        aw = torch.einsum("bmchw,bnhc->bmhw", embed, guide)
         aw = aw.max(dim=-1)[0]
         aw = aw / (self.hc**0.5)
         aw = aw + self.bias[None, :, None, None]
